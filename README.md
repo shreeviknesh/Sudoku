@@ -1,5 +1,5 @@
 # Sudoku Solver
-A simple C++ Sudoku application
+A simple C++ Sudoku application that uses backtracting to find the solution of the state, if any.
 
 ----
 
