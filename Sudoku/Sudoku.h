@@ -1,5 +1,14 @@
 #pragma once
+
+#ifndef PCH_H
+#define PCH_H
+
+#include <iostream>
 #include <unordered_map>
+#include "Sudoku.h"
+#include "SudokuSolver.h"
+
+#endif //PCH_H
 
 class Sudoku {
 private:
@@ -15,7 +24,7 @@ public:
 	/* Destructor */
 	~Sudoku() {
 	}
-	
+
 	/* A function that checks if the current board configuration is valid
 	i.e., it checks if there are any repetitions in the rows/cols/box */
 	bool is_valid_configuration(int board[9][9]);

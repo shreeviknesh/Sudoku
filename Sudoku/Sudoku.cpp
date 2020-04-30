@@ -1,5 +1,4 @@
 #include "Sudoku.h"
-#include <iostream>
 
 Sudoku::Sudoku() {
 	for (int i = 0; i < 9; i++) {
@@ -18,7 +17,7 @@ Sudoku::Sudoku(int board[9][9]) {
 		}
 	}
 	catch (std::exception& e) {
-		std::cout << "(ERROR) Given input sudoku is invalid!" << std::endl;
+		std::cout << "[ERROR] Given input sudoku is invalid!" << std::endl;
 		exit(69);
 	}
 
@@ -117,6 +116,10 @@ bool Sudoku::is_solved() {
 	return is_valid_configuration(this->board);
 }
 
+void Sudoku::generate_random_sudoku(const char* difficulty) {
+
+}
+
 void Sudoku::print_sudoku() {
 	for (int i = 0; i < 9; i++) {
 		if (i % 3 == 0 && i != 0) {
@@ -136,4 +139,3 @@ void Sudoku::print_sudoku() {
 		std::cout << std::endl;
 	}
 }
-
