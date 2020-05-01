@@ -1,15 +1,4 @@
 #pragma once
-
-#ifndef PCH_H
-#define PCH_H
-
-#include <iostream>
-#include <unordered_map>
-#include "Sudoku.h"
-#include "SudokuSolver.h"
-
-#endif //PCH_H
-
 class Sudoku {
 private:
 	int board[9][9];
@@ -39,4 +28,3 @@ public:
 	/* A function that prints the current state of the sudoku board to the console */
 	void print_sudoku();
 };
-
