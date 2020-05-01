@@ -1,12 +1,9 @@
 # Sudoku Solver
-A simple C++ Sudoku application that uses backtracting to find the solution of the state, if any.
-The application:
-- [Initializes](#initialization) the game
-- Provides a [GUI](#gui) for the user
-- [Checks if a solution is valid](#solution-checker)
-- [Solves](#sudoku-solver) the sudoku 
+A simple C++ Sudoku application that provides a GUI for a user to play the game. Moreover, it also provides a SudokuSolver that can be used to solve any given sudoku board (if a solution exists).
 
-### Initialization
-### GUI
-### Solution Checker
-### Sudoku Solver
+The goals of the project:
+- Invoke the GUI
+- Generate a random sudoku state/board based on difficulty
+- Check if a given sudoku state is valid
+- Check if a given sudoku state is a solution
+- Allow the user to input a state and find the solution for it
