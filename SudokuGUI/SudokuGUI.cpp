@@ -1,8 +1,8 @@
-#include "Sudoku.h"
+#include "../Sudoku/Sudoku.h"
 #include <iostream>
 
 int main() {
-	Sudoku game;
-	game.print_sudoku();
-	std::cin.get();
+    Sudoku game;
+    game.print_sudoku();
+    std::cin.get();
 }

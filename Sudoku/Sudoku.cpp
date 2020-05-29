@@ -44,12 +44,15 @@ bool Sudoku::is_valid_configuration(int board[9][9]) {
             /* Checking if any invalid values exist in the board */
             if (current_val > 9 || current_val < 0) {
                 return false;
-            } else if (current_val == 0) {
+            }
+            else if (current_val == 0) {
                 continue;
-            } else {
+            }
+            else {
                 if (seen_values[current_val] == 0) {
                     seen_values[current_val] = 1;
-                } else {
+                }
+                else {
                     return false;
                 }
             }
@@ -67,7 +70,8 @@ bool Sudoku::is_valid_configuration(int board[9][9]) {
             }
             if (seen_values[current_val] == 0) {
                 seen_values[current_val] = 1;
-            } else {
+            }
+            else {
                 return false;
             }
         }
@@ -86,7 +90,8 @@ bool Sudoku::is_valid_configuration(int board[9][9]) {
                     }
                     if (seen_values[current_val] == 0) {
                         seen_values[current_val] = 1;
-                    } else {
+                    }
+                    else {
                         return false;
                     }
                 }
@@ -126,7 +131,8 @@ void Sudoku::print_sudoku() {
             }
             if (board[i][j] == 0) {
                 std::cout << "  ";
-            } else {
+            }
+            else {
                 std::cout << board[i][j] << " ";
             }
         }

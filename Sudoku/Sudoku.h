@@ -1,10 +1,11 @@
 #ifndef SUDOKU_H
 #define SUDOKU_H
-class Sudoku {
-   private:
+class Sudoku
+{
+  private:
     int board[9][9];
 
-   public:
+  public:
     /* Default constructor that generates a random board */
     Sudoku();
 
