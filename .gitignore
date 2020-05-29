@@ -6,6 +6,7 @@
 # Binaries
 bin/
 bin-int/
+[Bb]uild/
 
 # User-specific files
 *.rsuser
