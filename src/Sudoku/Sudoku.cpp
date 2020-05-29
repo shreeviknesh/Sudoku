@@ -30,16 +30,13 @@ Sudoku::Sudoku(int board[9][9]) {
     }
 }
 
-bool Sudoku::is_valid_configuration(int board[9][9]) {
-    int i, j, current_val;
-    std::unordered_map<int, int> seen_values;
-
+[[nodiscard]] bool Sudoku::is_valid_configuration(const int board[9][9]) const noexcept {
     /* Checking all rows */
-    for (i = 0; i < 9; i++) {
-        seen_values.clear();
+    for (int i = 0; i < 9; i++) {
+        std::unordered_map<int, int> seen_values;
 
-        for (j = 0; j < 9; j++) {
-            current_val = board[i][j];
+        for (int j = 0; j < 9; j++) {
+            int current_val = board[i][j];
 
             /* Checking if any invalid values exist in the board */
             if (current_val > 9 || current_val < 0) {
@@ -60,11 +57,11 @@ bool Sudoku::is_valid_configuration(int board[9][9]) {
     }
 
     /* Checking all columns */
-    for (j = 0; j < 9; j++) {
-        seen_values.clear();
+    for (int j = 0; j < 9; j++) {
+        std::unordered_map<int, int> seen_values;
 
-        for (i = 0; i < 9; i++) {
-            current_val = board[i][j];
+        for (int i = 0; i < 9; i++) {
+            int current_val = board[i][j];
             if (current_val == 0) {
                 continue;
             }
@@ -80,11 +77,11 @@ bool Sudoku::is_valid_configuration(int board[9][9]) {
     /* Checking all boxes */
     for (int rows = 3; rows <= 9; rows += 3) {
         for (int cols = 3; cols <= 9; cols += 3) {
-            for (i = rows - 3; i < rows; i++) {
-                seen_values.clear();
+            for (int i = rows - 3; i < rows; i++) {
+                std::unordered_map<int, int> seen_values;
 
-                for (j = cols - 3; j < cols; j++) {
-                    current_val = board[i][j];
+                for (int j = cols - 3; j < cols; j++) {
+                    int current_val = board[i][j];
                     if (current_val == 0) {
                         continue;
                     }
@@ -103,7 +100,7 @@ bool Sudoku::is_valid_configuration(int board[9][9]) {
     return true;
 }
 
-bool Sudoku::is_solved() {
+[[nodiscard]] bool Sudoku::is_solved() const noexcept {
     /* Checking if the board contains any empty tile */
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
@@ -117,9 +114,9 @@ bool Sudoku::is_solved() {
     return is_valid_configuration(this->board);
 }
 
-void Sudoku::generate_random_sudoku(const char* difficulty) {}
+void Sudoku::generate_random_sudoku(const char* difficulty) noexcept {}
 
-void Sudoku::print_sudoku() {
+void Sudoku::print_sudoku() const noexcept {
     for (int i = 0; i < 9; i++) {
         if (i % 3 == 0 && i != 0) {
             // std::cout << "- - - - - - - - - - -" << std::endl;
