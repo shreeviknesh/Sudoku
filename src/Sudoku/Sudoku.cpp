@@ -109,12 +109,11 @@ Sudoku::Sudoku(int board[9][9]) {
     return is_valid_configuration(this->board);
 }
 
-void Sudoku::generate_random_sudoku(const char* difficulty) noexcept {}
+void Sudoku::generate_random_sudoku(Sudoku::Difficulty diff) noexcept {}
 
 void Sudoku::print_sudoku() const noexcept {
     for (int i = 0; i < 9; i++) {
         if (i % 3 == 0 && i != 0) {
-            // std::cout << "- - - - - - - - - - -" << std::endl;
             std::cout << "---------------------" << std::endl;
         }
         for (int j = 0; j < 9; j++) {

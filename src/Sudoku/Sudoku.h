@@ -4,6 +4,12 @@
 class Sudoku
 {
   public:
+    enum Difficulty {
+        Easy,
+        Medium,
+        Hard
+    };
+
     /* Default constructor that generates a random board */
     Sudoku();
 
@@ -24,7 +30,7 @@ class Sudoku
 
     /* A function that generates a random sudoku board with a fixed number of
      * clues */
-    void generate_random_sudoku(const char* difficulty) noexcept;
+    void generate_random_sudoku(Difficulty diff) noexcept;
 
     /* A function that prints the current state of the sudoku board to the
      * console */

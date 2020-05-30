@@ -13,7 +13,7 @@ TARGET   = Game
 EXTN     = out
 
 # List of objects that are required for the linking of the final executable
-OBJECTS  = SudokuGUI.o SudokuSolver.o Sudoku.o
+OBJECTS  = SudokuGUI.o Sudoku.o
 
 # The final executable that requires the OBJECTS list of .o files
 $(BIN)/$(TARGET): clean make_directories $(OBJECTS)
