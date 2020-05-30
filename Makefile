@@ -6,7 +6,7 @@ target=Game
 CC=g++ -std=c++17
 CPPFLAGS=-O3 -Wall
 
-$(target): make_directories SudokuGUI.o
+$(target): clean make_directories SudokuGUI.o
 	$(CC) $(CPPFLAGS) $(SRC_DIR)/$(target).cpp \
 		$(OBJ_DIR)/*.o -o $(OUT_DIR)/$(target).out
 
