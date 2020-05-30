@@ -5,6 +5,8 @@
 #include <array>
 #include <algorithm>
 #include <random>
+#include <cstdlib>
+#include <ctime>
 
 Sudoku::Sudoku() {
     for (int i = 0; i < 9; i++) {
@@ -22,7 +24,8 @@ Sudoku::Sudoku(int board[9][9]) {
             throw std::exception();
         }
     } catch (const std::exception&) {
-        std::cout << "[Error] Given input sudoku is invalid!" << std::endl;
+        std::cout << "\033[31m[ERROR] \033[0m"
+                  << "Given input sudoku is invalid!" << std::endl;
         exit(69);
     }
 
@@ -121,7 +124,49 @@ Sudoku::Sudoku(int board[9][9]) {
     return is_valid_configuration();
 }
 
-void Sudoku::generate_random_sudoku(Sudoku::Difficulty diff) noexcept {}
+void Sudoku::generate_random_sudoku(Sudoku::Difficulty diff) noexcept {
+    int num_correct = 0;
+
+    switch (diff) {
+    case Difficulty::Easy:
+        num_correct = 40;
+        break;
+    case Difficulty::Medium:
+        num_correct = 30;
+        break;
+    case Difficulty::Hard:
+        num_correct = 25;
+        break;
+    default:
+        num_correct = 18;
+    }
+
+    if (!solve()) {
+        std::cout << "\033[31m[ERROR] \033[0m"
+                  << "Couldn't generate sudoku" << std::endl;
+        exit(69);
+    }
+
+    srand(static_cast<unsigned int>(std::time(nullptr)));
+    int to_delete = 81 - num_correct;
+    int deleted = 0;
+
+    while (deleted < to_delete) {
+        int row = rand() % 9;
+        int col = rand() % 9;
+
+        if (board[row][col] != 0) {
+            board[row][col] = 0;
+            deleted++;
+
+            //if (solve()) {
+            //deleted++;
+            //} else {
+            //board[row][col] = temp;
+            //}
+        }
+    }
+}
 
 bool Sudoku::solve() noexcept {
     auto [row, col] = get_first_empty();
@@ -130,7 +175,7 @@ bool Sudoku::solve() noexcept {
     }
 
     std::array<int, 9> nums{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-    std::shuffle(nums.begin(), nums.end(), std::default_random_engine(static_cast<unsigned int>(time(NULL))));
+    std::shuffle(nums.begin(), nums.end(), std::default_random_engine(static_cast<unsigned int>(std::time(nullptr))));
     for (int num : nums) {
         board[row][col] = num;
         if (is_valid_configuration()) {
