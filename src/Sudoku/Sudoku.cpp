@@ -1,8 +1,10 @@
 #include "Sudoku.h"
 
 #include <iostream>
-#include <unordered_map>
-#include <utility>
+#include <unordered_set>
+#include <array>
+#include <algorithm>
+#include <random>
 
 Sudoku::Sudoku() {
     for (int i = 0; i < 9; i++) {
@@ -32,10 +34,10 @@ Sudoku::Sudoku(int board[9][9]) {
 }
 
 [[nodiscard]] bool Sudoku::is_valid_configuration() const noexcept {
+    std::unordered_set<int> seen_values;
     /* Checking all rows */
     for (int i = 0; i < 9; i++) {
-        std::unordered_map<int, int> seen_values;
-
+        seen_values.clear();
         for (int j = 0; j < 9; j++) {
             int current_val = board[i][j];
 
@@ -45,8 +47,8 @@ Sudoku::Sudoku(int board[9][9]) {
             } else if (current_val == 0) {
                 continue;
             } else {
-                if (seen_values[current_val] == 0) {
-                    seen_values[current_val] = 1;
+                if (seen_values.find(current_val) == seen_values.end()) {
+                    seen_values.insert(current_val);
                 } else {
                     return false;
                 }
@@ -56,34 +58,35 @@ Sudoku::Sudoku(int board[9][9]) {
 
     /* Checking all columns */
     for (int j = 0; j < 9; j++) {
-        std::unordered_map<int, int> seen_values;
+        seen_values.clear();
 
         for (int i = 0; i < 9; i++) {
             int current_val = board[i][j];
+
             if (current_val == 0) {
                 continue;
-            }
-            if (seen_values[current_val] == 0) {
-                seen_values[current_val] = 1;
             } else {
-                return false;
+                if (seen_values.find(current_val) == seen_values.end()) {
+                    seen_values.insert(current_val);
+                } else {
+                    return false;
+                }
             }
         }
     }
 
     /* Checking all boxes */
-    for (int rows = 3; rows <= 9; rows += 3) {
-        for (int cols = 3; cols <= 9; cols += 3) {
-            for (int i = rows - 3; i < rows; i++) {
-                std::unordered_map<int, int> seen_values;
-
-                for (int j = cols - 3; j < cols; j++) {
+    for (int rows = 0; rows < 9; rows += 3) {
+        for (int cols = 0; cols < 9; cols += 3) {
+            seen_values.clear();
+            for (int i = rows; i < rows + 3; i++) {
+                for (int j = cols; j < cols + 3; j++) {
                     int current_val = board[i][j];
                     if (current_val == 0) {
                         continue;
                     }
-                    if (seen_values[current_val] == 0) {
-                        seen_values[current_val] = 1;
+                    if (seen_values.find(current_val) == seen_values.end()) {
+                        seen_values.insert(current_val);
                     } else {
                         return false;
                     }
@@ -126,7 +129,9 @@ bool Sudoku::solve() noexcept {
         return true;
     }
 
-    for (int num = 1; num <= 9; num++) {
+    std::array<int, 9> nums{ 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    std::shuffle(nums.begin(), nums.end(), std::default_random_engine(static_cast<unsigned int>(time(NULL))));
+    for (int num : nums) {
         board[row][col] = num;
         if (is_valid_configuration()) {
             if (solve()) {
@@ -135,9 +140,6 @@ bool Sudoku::solve() noexcept {
         }
         board[row][col] = 0;
     }
-
-    print_sudoku();
-    std::cin.get();
 
     return false;
 }
