@@ -1,4 +1,0 @@
-#!/bin/zsh
-
-cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -S src -B build
-cmake --build build
