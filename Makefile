@@ -4,21 +4,21 @@ OUT_DIR=build
 target=SudokuGUI
 
 CC=g++ -std=c++17
-CFLAGS=-O3 -Wall
+CPPFLAGS=-O3 -Wall
 
-$(target): Sudoku.o SudokuSolver.o
-	mkdir -p $(OBJ_DIR) $(OUT_DIR)
-	$(CC) $(CFLAGS) $(SRC_DIR)/SudokuGUI/SudokuGUI.cpp $(OBJ_DIR)/*.o -o $(OUT_DIR)/SudokuGUI.out
+$(target): Sudoku.o SudokuSolver.o make_directories
+	$(CC) $(CPPFLAGS) $(SRC_DIR)/SudokuGUI/SudokuGUI.cpp $(OBJ_DIR)/*.o -o $(OUT_DIR)/SudokuGUI.out
 
-Sudoku.o:
-	mkdir -p $(OBJ_DIR) $(OUT_DIR)
-	$(CC) $(CFLAGS) -c $(SRC_DIR)/Sudoku/Sudoku.cpp -o $(OBJ_DIR)/Sudoku.o
+Sudoku.o: make_directories
+	$(CC) $(CPPFLAGS) -c $(SRC_DIR)/Sudoku/Sudoku.cpp -o $(OBJ_DIR)/Sudoku.o
 
-SudokuSolver.o:
-	mkdir -p $(OBJ_DIR) $(OUT_DIR)
-	$(CC) $(CFLAGS) -c $(SRC_DIR)/Sudoku/SudokuSolver.cpp -o $(OBJ_DIR)/SudokuSolver.o
+SudokuSolver.o: make_directories
+	$(CC) $(CPPFLAGS) -c $(SRC_DIR)/Sudoku/SudokuSolver.cpp -o $(OBJ_DIR)/SudokuSolver.o
 
 .PHONY: clean
 clean:
-	rm -rf $(OBJ_DIR)
-	rm -rf $(OUT_DIR)
+	rm -rf $(OBJ_DIR) $(OUT_DIR)
+
+.PHONY: make_directories
+make_directories:
+	mkdir -p $(OBJ_DIR) $(OUT_DIR)
