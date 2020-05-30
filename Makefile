@@ -1,24 +1,29 @@
+# How to use Makefile
+# 1. Create .o files for all .cpp files
+# 2. Link all the .o files together with target.cpp to create the final executable
+
 CC       = g++ -std=c++17
 CPPFLAGS = -O3 -Wall -Wextra -Wpedantic -Wconversion
 
 SRC      = src
 BIN      = bin
 OBJ      = $(BIN)/obj
+
 TARGET   = Game
 EXTN     = out
 
-$(BIN)/$(TARGET): clean make_directories $(OBJ)/Sudoku.o $(OBJ)/SudokuGUI.o $(OBJ)/SudokuSolver.o
+# List of objects that are required for the linking of the final executable
+OBJECTS  = SudokuGUI.o SudokuSolver.o Sudoku.o
+
+# The final executable that requires the OBJECTS list of .o files
+$(BIN)/$(TARGET): clean make_directories $(OBJECTS)
 	$(CC) $(CPPFLAGS) $(SRC)/$(TARGET).cpp $(OBJ)/*.o -o $(BIN)/$(TARGET).$(EXTN)
 
-$(OBJ)/SudokuGUI.o: $(SRC)/Sudoku/SudokuGUI.cpp
-	$(CC) $(CPPFLAGS) -c $(SRC)/Sudoku/SudokuGUI.cpp -o $(OBJ)/SudokuGUI.o
+# Static Pattern Rules to create .o for all OBJECTS files
+$(OBJECTS): %.o: $(SRC)/Sudoku/%.cpp
+	$(CC) $(CPPFLAGS) -c $< -o $(OBJ)/$@
 
-$(OBJ)/SudokuSolver.o: $(SRC)/Sudoku/SudokuSolver.cpp
-	$(CC) $(CPPFLAGS) -c $(SRC)/Sudoku/SudokuSolver.cpp -o $(OBJ)/SudokuSolver.o
-
-$(OBJ)/Sudoku.o: $(SRC)/Sudoku/Sudoku.cpp
-	$(CC) $(CPPFLAGS) -c $(SRC)/Sudoku/Sudoku.cpp -o $(OBJ)/Sudoku.o
-
+# Phony is not really the name of a file, rather just a recipe to be executed
 .PHONY: clean make_directories
 clean:
 	rm -rf $(OBJ) $(BIN)
