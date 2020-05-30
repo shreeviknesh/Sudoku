@@ -1,26 +1,27 @@
-SRC_DIR   = src
-OBJ_DIR   = bin/obj
-OUT_DIR   = bin
-target    = Game
-extension = out
-CC        = g++ -std=c++17
-CPPFLAGS  = -O3 -Wall
+CC       = g++ -std=c++17
+CPPFLAGS = -O3 -Wall -Wextra -Wpedantic -Wconversion
 
-$(OUT_DIR)/$(target): clean make_directories $(OBJ_DIR)/Sudoku.o $(OBJ_DIR)/SudokuGUI.o $(OBJ_DIR)/SudokuSolver.o
-	$(CC) $(CPPFLAGS) $(SRC_DIR)/$(target).cpp $(OBJ_DIR)/*.o -o $(OUT_DIR)/$(target).$(extension)
+SRC      = src
+BIN      = bin
+OBJ      = $(BIN)/obj
+TARGET   = Game
+EXTN     = out
 
-$(OBJ_DIR)/SudokuGUI.o: $(SRC_DIR)/Sudoku/SudokuGUI.cpp
-	$(CC) $(CPPFLAGS) -c $(SRC_DIR)/Sudoku/SudokuGUI.cpp -o $(OBJ_DIR)/SudokuGUI.o
+$(BIN)/$(TARGET): clean make_directories $(OBJ)/Sudoku.o $(OBJ)/SudokuGUI.o $(OBJ)/SudokuSolver.o
+	$(CC) $(CPPFLAGS) $(SRC)/$(TARGET).cpp $(OBJ)/*.o -o $(BIN)/$(TARGET).$(EXTN)
 
-$(OBJ_DIR)/SudokuSolver.o: $(SRC_DIR)/Sudoku/SudokuSolver.cpp
-	$(CC) $(CPPFLAGS) -c $(SRC_DIR)/Sudoku/SudokuSolver.cpp -o $(OBJ_DIR)/SudokuSolver.o
+$(OBJ)/SudokuGUI.o: $(SRC)/Sudoku/SudokuGUI.cpp
+	$(CC) $(CPPFLAGS) -c $(SRC)/Sudoku/SudokuGUI.cpp -o $(OBJ)/SudokuGUI.o
 
-$(OBJ_DIR)/Sudoku.o: $(SRC_DIR)/Sudoku/Sudoku.cpp
-	$(CC) $(CPPFLAGS) -c $(SRC_DIR)/Sudoku/Sudoku.cpp -o $(OBJ_DIR)/Sudoku.o
+$(OBJ)/SudokuSolver.o: $(SRC)/Sudoku/SudokuSolver.cpp
+	$(CC) $(CPPFLAGS) -c $(SRC)/Sudoku/SudokuSolver.cpp -o $(OBJ)/SudokuSolver.o
+
+$(OBJ)/Sudoku.o: $(SRC)/Sudoku/Sudoku.cpp
+	$(CC) $(CPPFLAGS) -c $(SRC)/Sudoku/Sudoku.cpp -o $(OBJ)/Sudoku.o
 
 .PHONY: clean make_directories
 clean:
-	rm -rf $(OBJ_DIR) $(OUT_DIR)
+	rm -rf $(OBJ) $(BIN)
 
 make_directories:
-	mkdir -p $(OBJ_DIR) $(OUT_DIR)
+	mkdir -p $(OBJ) $(BIN)
