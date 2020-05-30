@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <utility>
 
 Sudoku::Sudoku() {
     for (int i = 0; i < 9; i++) {
@@ -15,7 +16,7 @@ Sudoku::Sudoku(int board[9][9]) {
     /* Checking if the given sudoku configuration is valid
      * Throws an exception if it is invalid */
     try {
-        if (!is_valid_configuration(board)) {
+        if (!is_valid_configuration()) {
             throw std::exception();
         }
     } catch (const std::exception&) {
@@ -30,7 +31,7 @@ Sudoku::Sudoku(int board[9][9]) {
     }
 }
 
-[[nodiscard]] bool Sudoku::is_valid_configuration(const int board[9][9]) const noexcept {
+[[nodiscard]] bool Sudoku::is_valid_configuration() const noexcept {
     /* Checking all rows */
     for (int i = 0; i < 9; i++) {
         std::unordered_map<int, int> seen_values;
@@ -95,21 +96,51 @@ Sudoku::Sudoku(int board[9][9]) {
     return true;
 }
 
-[[nodiscard]] bool Sudoku::is_solved() const noexcept {
+[[nodiscard]] std::pair<int, int> Sudoku::get_first_empty() const noexcept {
     /* Checking if the board contains any empty tile */
     for (int i = 0; i < 9; i++) {
         for (int j = 0; j < 9; j++) {
             if (board[i][j] == 0) {
-                return false;
+                return std::make_pair(i, j);
             }
         }
     }
 
+    return std::make_pair(-1, -1);
+}
+
+[[nodiscard]] bool Sudoku::is_solved() const noexcept {
+    auto [row, col] = get_first_empty();
+    if (row != -1 && col != -1) {
+        return false;
+    }
     /* If there are no empty tiles, checking if the board is valid */
-    return is_valid_configuration(this->board);
+    return is_valid_configuration();
 }
 
 void Sudoku::generate_random_sudoku(Sudoku::Difficulty diff) noexcept {}
+
+bool Sudoku::solve() noexcept {
+    auto [row, col] = get_first_empty();
+    if (row == -1 && col == -1) {
+        return true;
+    }
+
+    for (int num = 1; num <= 9; num++) {
+        board[row][col] = num;
+        if (is_valid_configuration()) {
+            if (solve()) {
+                return true;
+            }
+        }
+        board[row][col] = 0;
+    }
+
+    print_sudoku();
+    std::cin.get();
+
+    return false;
+}
 
 void Sudoku::print_sudoku() const noexcept {
     for (int i = 0; i < 9; i++) {
