@@ -12,16 +12,19 @@ OBJ      = $(BIN)/obj
 TARGET   = Game
 EXTN     = out
 
-# List of objects that are required for the linking of the final executable
-OBJECTS  = SudokuGUI.o Sudoku.o
-
 # The final executable that requires the OBJECTS list of .o files
-$(BIN)/$(TARGET): clean make_directories $(OBJECTS)
-	$(CC) $(CPPFLAGS) $(SRC)/$(TARGET).cpp $(OBJ)/*.o -o $(BIN)/$(TARGET).$(EXTN)
+$(BIN)/$(TARGET).$(EXTN): clean make_directories $(OBJ)/$(TARGET).o $(OBJ)/Sudoku.o $(OBJ)/SudokuGUI.o
+	$(CC) $(CPPFLAGS) $(OBJ)/*.o -o $(BIN)/$(TARGET).$(EXTN)
 
-# Static Pattern Rules to create .o for all OBJECTS files
-$(OBJECTS): %.o: $(SRC)/Sudoku/%.cpp
-	$(CC) $(CPPFLAGS) -c $< -o $(OBJ)/$@
+# ALL the .o files that are required by the final executable
+$(OBJ)/$(TARGET).o: $(SRC)/$(TARGET).cpp
+	$(CC) $(CPPFLAGS) -c $(SRC)/$(TARGET).cpp -o $(OBJ)/$(TARGET).o
+
+$(OBJ)/SudokuGUI.o: $(SRC)/SudokuGUI.cpp $(SRC)/SudokuGUI.h
+	$(CC) $(CPPFLAGS) -c $(SRC)/SudokuGUI.cpp -o $(OBJ)/SudokuGUI.o
+
+$(OBJ)/Sudoku.o: $(SRC)/Sudoku.cpp $(SRC)/Sudoku.h
+	$(CC) $(CPPFLAGS) -c $(SRC)/Sudoku.cpp -o $(OBJ)/Sudoku.o
 
 # Phony is not really the name of a file, rather just a recipe to be executed
 .PHONY: clean make_directories

@@ -1,4 +1,4 @@
-#include "Sudoku/SudokuGUI.h"
+#include "SudokuGUI.h"
 
 int main() {
     SudokuGUI game;
