@@ -38,6 +38,7 @@ Sudoku::Sudoku(int board[9][9]) {
 
 [[nodiscard]] bool Sudoku::is_valid_configuration() const noexcept {
     std::unordered_set<int> seen_values;
+
     /* Checking all rows */
     for (int i = 0; i < 9; i++) {
         seen_values.clear();
@@ -135,7 +136,7 @@ void Sudoku::generate_random_sudoku(Sudoku::Difficulty diff) noexcept {
         num_correct = 30;
         break;
     case Difficulty::Hard:
-        num_correct = 25;
+        num_correct = 20;
         break;
     default:
         num_correct = 18;
@@ -178,10 +179,8 @@ bool Sudoku::solve() noexcept {
     std::shuffle(nums.begin(), nums.end(), std::default_random_engine(static_cast<unsigned int>(std::time(nullptr))));
     for (int num : nums) {
         board[row][col] = num;
-        if (is_valid_configuration()) {
-            if (solve()) {
-                return true;
-            }
+        if (is_valid_configuration() && solve()) {
+            return true;
         }
         board[row][col] = 0;
     }

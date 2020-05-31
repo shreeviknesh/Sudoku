@@ -16,7 +16,7 @@ class Sudoku
     Sudoku();
 
     /* Parameterized constructor that takes the initial state of the board as input*/
-    Sudoku(int board[9][9]);
+    explicit Sudoku(int board[9][9]);
 
     /* Destructor */
     ~Sudoku() {}
