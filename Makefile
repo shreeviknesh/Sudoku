@@ -13,7 +13,7 @@ TARGET   = Game
 EXTN     = out
 
 # The final executable that requires the OBJECTS list of .o files
-$(BIN)/$(TARGET).$(EXTN): clean make_directories $(OBJ)/$(TARGET).o $(OBJ)/Sudoku.o $(OBJ)/SudokuGUI.o
+$(BIN)/$(TARGET).$(EXTN): make_directories $(OBJ)/$(TARGET).o $(OBJ)/Sudoku.o $(OBJ)/SudokuGUI.o
 	$(CC) $(CPPFLAGS) $(OBJ)/*.o -o $(BIN)/$(TARGET).$(EXTN)
 
 # ALL the .o files that are required by the final executable
