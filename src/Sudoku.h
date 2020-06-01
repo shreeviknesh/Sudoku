@@ -1,7 +1,15 @@
 #ifndef SUDOKU_H
 #define SUDOKU_H
 
+#include <iostream>
+#include <unordered_set>
+#include <array>
+#include <algorithm>
+#include <random>
 #include <utility>
+#include <ctime>
+#include <cstdlib>
+#include <cstring>
 
 class Sudoku
 {
@@ -12,24 +20,21 @@ class Sudoku
         Hard
     };
 
-    /* Default constructor that generates a random board */
-    Sudoku();
+    /* Default Constructor */
+    Sudoku() = default;
 
     /* Parameterized constructor that takes the initial state of the board as input*/
-    explicit Sudoku(int board[9][9]);
-
-    /* Destructor */
-    ~Sudoku() {}
+    explicit Sudoku(const int (&board)[9][9]);
 
     /* A function that checks if the current board configuration is valid
-     * i.e., it checks if there are any repetitions in the rows/cols/box */
+         * i.e., it checks if there are any repetitions in the rows/cols/box */
     [[nodiscard]] bool is_valid_configuration() const noexcept;
 
     /* A function that returns the location of the first empty position */
     [[nodiscard]] std::pair<int, int> get_first_empty() const noexcept;
 
     /* A function that checks if all the cells of the board are non-empty
-     * and if the current configuration of the board is valid */
+         * and if the current configuration of the board is valid */
     [[nodiscard]] bool is_solved() const noexcept;
 
     /* A function that generates a random sudoku board with a fixed number of clues */
@@ -42,7 +47,7 @@ class Sudoku
     void print_sudoku() const noexcept;
 
   private:
-    int board[9][9];
+    int board[9][9] = { 0 };
 };
 
 #endif

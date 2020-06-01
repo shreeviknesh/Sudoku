@@ -1,38 +1,16 @@
 #include "Sudoku.h"
 
-#include <iostream>
-#include <unordered_set>
-#include <array>
-#include <algorithm>
-#include <random>
-#include <cstdlib>
-#include <ctime>
-
-Sudoku::Sudoku() {
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            board[i][j] = 0;
-        }
-    }
-}
-
-Sudoku::Sudoku(int board[9][9]) {
+Sudoku::Sudoku(const int (&board)[9][9]) {
     /* Checking if the given sudoku configuration is valid
-     * Throws an exception if it is invalid */
+     * Prints an error if it is invalid */
     try {
         if (!is_valid_configuration()) {
             throw std::exception();
         }
+        std::memcpy(this->board, board, sizeof(board[0][0]) * 81);
     } catch (const std::exception&) {
         std::cout << "\033[31m[ERROR] \033[0m"
-                  << "Given input sudoku is invalid!" << std::endl;
-        exit(69);
-    }
-
-    for (int i = 0; i < 9; i++) {
-        for (int j = 0; j < 9; j++) {
-            this->board[i][j] = board[i][j];
-        }
+                  << "Given input sudoku is invalid!" << '\n';
     }
 }
 
@@ -112,11 +90,11 @@ Sudoku::Sudoku(int board[9][9]) {
             }
         }
     }
-
     return std::make_pair(-1, -1);
 }
 
 [[nodiscard]] bool Sudoku::is_solved() const noexcept {
+    /* Checking if there are any empty cells */
     auto [row, col] = get_first_empty();
     if (row != -1 && col != -1) {
         return false;
@@ -126,8 +104,7 @@ Sudoku::Sudoku(int board[9][9]) {
 }
 
 void Sudoku::generate_random_sudoku(Sudoku::Difficulty diff) noexcept {
-    int num_correct = 0;
-
+    int num_correct;
     switch (diff) {
     case Difficulty::Easy:
         num_correct = 40;
@@ -144,8 +121,8 @@ void Sudoku::generate_random_sudoku(Sudoku::Difficulty diff) noexcept {
 
     if (!solve()) {
         std::cout << "\033[31m[ERROR] \033[0m"
-                  << "Couldn't generate sudoku" << std::endl;
-        exit(69);
+                  << "Couldn't generate sudoku" << '\n';
+        return;
     }
 
     srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -153,18 +130,11 @@ void Sudoku::generate_random_sudoku(Sudoku::Difficulty diff) noexcept {
     int deleted = 0;
 
     while (deleted < to_delete) {
-        int row = rand() % 9;
-        int col = rand() % 9;
+        int row = rand() % 9, col = rand() % 9;
 
         if (board[row][col] != 0) {
             board[row][col] = 0;
             deleted++;
-
-            //if (solve()) {
-            //deleted++;
-            //} else {
-            //board[row][col] = temp;
-            //}
         }
     }
 }
@@ -191,7 +161,7 @@ bool Sudoku::solve() noexcept {
 void Sudoku::print_sudoku() const noexcept {
     for (int i = 0; i < 9; i++) {
         if (i % 3 == 0 && i != 0) {
-            std::cout << "---------------------" << std::endl;
+            std::cout << "---------------------" << '\n';
         }
         for (int j = 0; j < 9; j++) {
             if (j % 3 == 0 && j != 0) {
@@ -203,6 +173,6 @@ void Sudoku::print_sudoku() const noexcept {
                 std::cout << board[i][j] << " ";
             }
         }
-        std::cout << std::endl;
+        std::cout << '\n';
     }
 }

@@ -1,10 +1,13 @@
 #ifndef SUDOKU_GUI_H
 #define SUDOKU_GUI_H
 
+#include "Sudoku.h"
+#include <iostream>
+
 class SudokuGUI
 {
   public:
-    void start() const noexcept;
+    static void start();
 };
 
 #endif
