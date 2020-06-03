@@ -107,16 +107,16 @@ void Sudoku::generate_random_sudoku(Sudoku::Difficulty diff) noexcept {
     int num_correct;
     switch (diff) {
     case Difficulty::Easy:
-        num_correct = 40;
+        num_correct = 45;
         break;
     case Difficulty::Medium:
-        num_correct = 30;
+        num_correct = 35;
         break;
     case Difficulty::Hard:
-        num_correct = 20;
+        num_correct = 25;
         break;
     default:
-        num_correct = 18;
+        num_correct = 23;
     }
 
     if (!solve()) {
